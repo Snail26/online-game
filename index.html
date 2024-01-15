@@ -46,11 +46,17 @@
             connected()
         }
         function connected() {
+            document.getElementById("nameInput").style.display = "none";
             socket.emit("connected", name)
             socket.emit("refreshNames");
         }
         socket.on("refreshNames", (names) => {
-            console.log(names)
+            var onlineNumber = names.spilt(":").length / 2;
+            var i = 0;
+            while (i != onlineNumber) {
+                console.log(names.split(":")[onlineNumber * 2])
+                i++;
+            }
         });
     </script>
 </body>
