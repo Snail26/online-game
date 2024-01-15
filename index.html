@@ -35,6 +35,7 @@
     <script>
         var socket = io();
         var team = "none";
+        var matchmaking = false;
         if (getCookie("name")) {
             var name = getCookie("name");
             document.getElementById("lobby").style.display = "block";
@@ -48,12 +49,26 @@
             document.getElementById("nameScreen").style.display = "none";
             connected()
         });
+        document.getElementById("lookForGame").addEventListener("click", () => {
+            socket.emit("matchmaking");
+            matchmaking = true;
+        })
         function connected() {
             document.getElementById("nameInput").style.display = "none";
             socket.emit("connected", name)
             socket.emit("refreshNames");
 
         }
+        socket.on("matchmaking", () => {
+            if (matchmaking == true) {
+                socket.emit("matched", "#" + socket.id);
+            }
+        })
+        socket.on("matched", (id) => {
+            if (matchmaking == true) {
+                location.replace(location + id);
+            }
+        })
         function getCookie(name) {
             const value = `; ${document.cookie}`;
             const parts = value.split(`; ${name}=`);

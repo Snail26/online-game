@@ -16,9 +16,15 @@ server.listen(3000, () => {
 
 io.on('connection', (socket) => {
     socket.on("connected", (name) => {
-        users.unshift(name)
+        users.unshift(name);
     });
     socket.on("refreshNames", () => {
-        io.emit("refreshNames", users)
-    })
+        io.emit("refreshNames", users);
+    });
+    socket.on("matchmaking", () => {
+        io.emit("matchmaking");
+    });
+    socket.on("matched", (id) => {
+        io.emit("matched", id)
+    });
 });
