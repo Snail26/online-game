@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
         io.emit("refreshNames", users);
     });
     socket.on("matchmaking", () => {
-        io.emit("matchmaking");
+        socket.broadcast.emit("matchmaking")
     });
     socket.on("matched", (id) => {
         io.emit("matched", id)
