@@ -10,6 +10,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+server.listen(3000, () => {
+    console.log('listening on *:3000');
+  });
+
 io.on('connection', (socket) => {
     socket.on("connected", (name) => {
         eval("users." + name + " = " + socket.id);
