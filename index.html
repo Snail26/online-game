@@ -34,25 +34,37 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
-        document.getElementById("nameBtn").addEventListener("click", () => {
-            const name = encodeURIComponent(document.getElementById("nameInput").value);
-            localStorage.name = name;
+        var team = "none";
+        if (getCookie("name")) {
             document.getElementById("lobby").style.display = "block";
-            connected()
-        });
-        if (localStorage.name) {
-            const name = localStorage.name;
-            document.getElementById("lobby").style.display = "block";
+            document.getElementById("lobbynameScreen").style.display = "none";
             connected()
         }
+        document.getElementById("nameBtn").addEventListener("click", () => {
+            const name = encodeURIComponent(document.getElementById("nameInput").value);
+            setCookie("name", name, 999999);
+            document.getElementById("lobby").style.display = "block";
+            document.getElementById("lobbynameScreen").style.display = "none";
+            connected()
+        });
         function connected() {
             document.getElementById("nameInput").style.display = "none";
             socket.emit("connected", name)
             socket.emit("refreshNames");
+
         }
-        socket.on("refreshNames", (names) => {
-            alert("online" + names.split("[").split("]"))
-        });
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+            function setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                let expires = "expires="+ d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
     </script>
 </body>
 </html>
