@@ -51,12 +51,7 @@
             socket.emit("refreshNames");
         }
         socket.on("refreshNames", (names) => {
-            var onlineNumber = names.spilt(":").length / 2;
-            var i = 0;
-            while (i != onlineNumber) {
-                console.log(names.split(":")[onlineNumber * 2])
-                i++;
-            }
+            alert("online" + names.split("[").split("]"))
         });
     </script>
 </body>
