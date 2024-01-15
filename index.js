@@ -16,7 +16,7 @@ server.listen(3000, () => {
 
 io.on('connection', (socket) => {
     socket.on("connected", (name) => {
-        eval("users." + name + " = " + socket.id);
+        eval("users." + name + " = " + "'" + socket.id + "'");
     });
     socket.on("refreshNames", () => {
         io.emit("refreshNames", users)
