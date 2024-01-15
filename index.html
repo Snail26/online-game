@@ -37,14 +37,14 @@
         var team = "none";
         if (getCookie("name")) {
             document.getElementById("lobby").style.display = "block";
-            document.getElementById("lobbynameScreen").style.display = "none";
+            document.getElementById("nameScreen").style.display = "none";
             connected()
         }
         document.getElementById("nameBtn").addEventListener("click", () => {
             const name = encodeURIComponent(document.getElementById("nameInput").value);
             setCookie("name", name, 999999);
             document.getElementById("lobby").style.display = "block";
-            document.getElementById("lobbynameScreen").style.display = "none";
+            document.getElementById("nameScreen").style.display = "none";
             connected()
         });
         function connected() {
