@@ -61,12 +61,12 @@
         }
         socket.on("matchmaking", () => {
             if (matchmaking == true) {
-                socket.emit("matched", "#" + socket.id);
+                socket.emit("matched", socket.id);
             }
         })
         socket.on("matched", (id) => {
             if (matchmaking == true) {
-                location.replace(location + id);
+                location.hash = id;
             }
         })
         function getCookie(name) {
