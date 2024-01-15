@@ -48,6 +48,9 @@
             socket.emit("connected", name)
             socket.emit("refreshNames");
         }
+        socket.on("refreshNames", (names) => {
+            console.log(names)
+        });
     </script>
 </body>
 </html>

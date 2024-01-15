@@ -15,6 +15,6 @@ io.on('connection', (socket) => {
         eval("users." + name + " = " + socket.id);
     });
     socket.on("refreshNames", () => {
-        io.emit(users)
+        io.emit("refreshNames", users)
     })
 });
