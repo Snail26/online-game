@@ -13,6 +13,9 @@
         #lobby {
             display: none;
         }
+        #game {
+            display: none;
+        }
     </style>
     <title>Snail VS Cat Tower Defence</title>
 </head>
@@ -31,6 +34,7 @@
             <button id="lookForGame">look for game</button>
         </div>
     </div>
+    <div id="game"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
@@ -57,16 +61,34 @@
             document.getElementById("nameInput").style.display = "none";
             socket.emit("connected", name)
             socket.emit("refreshNames");
-
+            if (location.hash) {
+                var gameId = location.hash;
+                loadGame();
+            }
+        }
+        function loadGame() {
+            document.getElementById("mainScreen").style.display = "none";
+            socket.emit("teamSelect", gameId);
+            socket.on(gameId + "team", (teamId) => {
+                if (teamId == 1) {
+                    team = "Snail";
+                }
+                else {
+                    team = "Cat";
+                }
+                console.log(teamId);
+                document.getElementById("game").style.display = "block";
+            });
         }
         socket.on("matchmaking", () => {
             if (matchmaking == true) {
-                socket.emit("matched", socket.id);
+                socket.emit("matched", socket.id.split("-").toString());
             }
         })
         socket.on("matched", (id) => {
             if (matchmaking == true) {
                 location.hash = id;
+                location.reload();
             }
         })
         function getCookie(name) {

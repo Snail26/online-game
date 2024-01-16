@@ -5,6 +5,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 const users = [];
+var teamNumberRng = 0;
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
@@ -25,6 +26,13 @@ io.on('connection', (socket) => {
         socket.broadcast.emit("matchmaking")
     });
     socket.on("matched", (id) => {
-        io.emit("matched", id)
+        io.emit("matched", id);
+    });
+    socket.on("teamSelect", (gameId) => {
+        teamNumberRng += 1;
+        io.emit(gameId + "team", teamNumberRng);
+        if (teamNumberRng == 2) {
+            teamNumberRng = 0;
+        }
     });
 });
