@@ -38,7 +38,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
-        var team = "none";
+        var team = undefined;
         var matchmaking = false;
         var gameId = "";
         if (getCookie("name")) {
@@ -70,16 +70,23 @@
         function loadGame() {
             document.getElementById("mainScreen").style.display = "none";
             socket.emit("teamSelect", gameId);
+            var awaitingTeam = true;
             socket.on(gameId + "team", (teamId) => {
-                if (teamId == 1) {
-                    team = "Snail";
+                if (awaitingTeam == true) {
+                    awaitingTeam = false;
+                    if (teamId == 1) {
+                        team = "Snail";
+                    }
+                    else {
+                        team = "Cat";
+                    }
+                    console.log(teamId);
+                    document.getElementById("game").style.display = "block";
                 }
-                else {
-                    team = "Cat";
-                }
-                console.log(teamId);
-                document.getElementById("game").style.display = "block";
             });
+            if (team != undefined) {
+                alert(team)
+            }
         }
         socket.on("matchmaking", () => {
             if (matchmaking == true) {
