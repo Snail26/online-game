@@ -40,6 +40,7 @@
         var socket = io();
         var team = "none";
         var matchmaking = false;
+        var gameId = "";
         if (getCookie("name")) {
             var name = getCookie("name");
             document.getElementById("lobby").style.display = "block";
@@ -62,7 +63,7 @@
             socket.emit("connected", name)
             socket.emit("refreshNames");
             if (location.hash) {
-                var gameId = location.hash;
+                gameId = location.hash;
                 loadGame();
             }
         }
