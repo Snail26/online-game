@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
     });
     socket.on("teamSelect", (gameId) => {
         teamNumberRng += 1;
-        io.emit(gameId + "team", teamNumberRng);
+        socket.broadcast.emit(gameId + "team", teamNumberRng);
         if (teamNumberRng == 2) {
             teamNumberRng = 0;
         }
