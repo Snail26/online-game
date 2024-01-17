@@ -35,4 +35,10 @@ io.on('connection', (socket) => {
             teamNumberRng = 0;
         }
     });
+    socket.on("sendEnemy", (gameId)  => {
+        socket.broadcast.emit(gameId + "enemy");
+    })
+    socket.on("win", (gameId) => {
+        socket.broadcast.emit(gameId + "win");
+    });
 });
